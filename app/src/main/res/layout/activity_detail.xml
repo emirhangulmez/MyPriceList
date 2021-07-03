@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetailActivity">
+
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="306dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="49dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="49dp"
+        android:layout_marginBottom="292dp"
+        app:layout_constraintBottom_toTopOf="@+id/updateButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.571"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_launcher_background" />
+
+    <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/gridLayout2"
+        android:layout_width="213dp"
+        android:layout_height="276dp"
+        android:layout_marginBottom="52dp"
+        android:foregroundGravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2">
+
+        <EditText
+            android:id="@+id/quantityEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:ems="10"
+            android:inputType="number"
+            app:layout_column="1"
+            app:layout_row="7"
+            tools:layout_editor_absoluteX="113dp"
+            tools:layout_editor_absoluteY="500dp" />
+
+        <EditText
+            android:id="@+id/productNameEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            app:layout_column="1"
+            app:layout_row="1"
+            tools:layout_editor_absoluteX="97dp"
+            tools:layout_editor_absoluteY="340dp" />
+
+        <EditText
+            android:id="@+id/costPriceEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="39dp"
+            android:ems="10"
+            android:inputType="number"
+            app:layout_column="1"
+            app:layout_row="3"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="422dp" />
+
+        <TextView
+            android:id="@+id/costPriceTextView"
+            android:layout_width="209dp"
+            android:layout_height="28dp"
+            android:gravity="center"
+            android:text="Cost Price"
+            app:layout_column="1"
+            app:layout_row="2"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="394dp" />
+
+        <TextView
+            android:id="@+id/salePriceTextView"
+            android:layout_width="210dp"
+            android:layout_height="29dp"
+            android:gravity="center"
+            android:text="Sale Price"
+            app:layout_column="1"
+            app:layout_row="4"
+            tools:layout_editor_absoluteX="210dp"
+            tools:layout_editor_absoluteY="393dp" />
+
+        <EditText
+            android:id="@+id/salePriceEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:ems="10"
+            android:inputType="number"
+            app:layout_column="1"
+            app:layout_row="5"
+            tools:layout_editor_absoluteX="210dp"
+            tools:layout_editor_absoluteY="421dp" />
+
+        <TextView
+            android:id="@+id/productNameTextView"
+            android:layout_width="210dp"
+            android:layout_height="27dp"
+            android:gravity="center"
+            android:text="Product Name"
+            app:layout_column="1"
+            app:layout_row="0"
+            tools:layout_editor_absoluteX="98dp"
+            tools:layout_editor_absoluteY="315dp" />
+
+        <TextView
+            android:id="@+id/quantityTextView"
+            android:layout_width="204dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Quantity"
+            app:layout_column="1"
+            app:layout_row="6"
+            tools:layout_editor_absoluteX="113dp"
+            tools:layout_editor_absoluteY="473dp" />
+    </androidx.gridlayout.widget.GridLayout>
+
+    <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="118dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="53dp"
+        android:onClick="delete"
+        android:text="delete"
+        app:layout_constraintBottom_toBottomOf="@+id/updateButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/updateButton"
+        app:layout_constraintTop_toBottomOf="@+id/gridLayout2"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/updateButton"
+        android:layout_width="118dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="53dp"
+        android:layout_marginEnd="68dp"
+        android:layout_marginBottom="5dp"
+        android:onClick="update"
+        android:text="update"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/deleteButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

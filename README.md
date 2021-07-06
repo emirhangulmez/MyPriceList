@@ -1,9 +1,14 @@
 # MyPriceList - Mobile Application
 <h2>Used technologies</h2>
 
+<a href="https://developer.android.com/"><img width="500" src="https://cdn.mos.cms.futurecdn.net/Ju3ceiZzGSSQacR2juGN98.png"></a>
+<br>
 <a href="https://www.java.com/"><img width="100" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg"></a>
 <a href="https://developer.android.com/"><img width="100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Android_Studio_Icon_%282014-2019%29.svg/512px-Android_Studio_Icon_%282014-2019%29.svg.png"></a>
-<a href="https://developer.android.com/"><img width="100" src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Gradle_logo.png"></a>
+<a href="https://developer.android.com/"><img width="100" src="https://cdn.iconscout.com/icon/free/png-256/gradle-282666.png"></a>
+<a href="https://developer.android.com/"><img width="100" src="https://apps.fs.usda.gov/fia/datamart/images/iconSqlite.png"></a>
+
+
 <hr>
 <div style="display: flex;">
   <h2>In-app images</h2>

@@ -1,4 +1,4 @@
-package com.emirhan.mypricelist;
+package com.emirhan.mypricelist.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,15 +6,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.emirhan.mypricelist.Adapters.MyAdapter;
+import com.emirhan.mypricelist.Model.PriceList;
+import com.emirhan.mypricelist.R;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Integer> idArray;
     ArrayList<Integer> quantityArray;
     ArrayList<Integer> PriceArray;
-    ArrayAdapter arrayAdapter;
+    ArrayList<PriceList> arrayList;
+    MyAdapter myAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,42 +47,25 @@ public class MainActivity extends AppCompatActivity {
         quantityArray = new ArrayList<Integer>();
 
 
-        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,nameArray);
-        listView.setAdapter(arrayAdapter);
-
+        loadDataInListView();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this,DetailActivity.class);
-                intent.putExtra("priceId",idArray.get(position));
+                intent.putExtra("priceId",3);
                 intent.putExtra("info","old");
                 startActivity(intent);
             }
         });
-        getData();
     }
 
-
-    public void getData() {
-        try {
-        SQLiteDatabase database = this.openOrCreateDatabase("PriceList",MODE_PRIVATE,null);
-
-        Cursor cursor = database.rawQuery("SELECT * FROM PriceList",null);
-            int idIX = cursor.getColumnIndex("id");
-            int nameIX = cursor.getColumnIndex("productname");
-            int quantityIx = cursor.getColumnIndex("quantity");
-            int priceIx = cursor.getColumnIndex("salePrice");
-            while (cursor.moveToNext()) {
-                nameArray.add(cursor.getString(nameIX));
-                idArray.add(cursor.getInt(idIX));
-
-            }
-            arrayAdapter.notifyDataSetChanged();
-            cursor.close();
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void loadDataInListView() {
+       arrayList = getAllData();
+       myAdapter = new MyAdapter(this,arrayList);
+       listView.setAdapter(myAdapter);
+       myAdapter.notifyDataSetChanged();
     }
+
 
 
 
@@ -105,5 +96,31 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public ArrayList<PriceList> getAllData()
+    {
+        try {
+            arrayList = new ArrayList<>();
+            SQLiteDatabase db = this.openOrCreateDatabase("PriceList",MODE_PRIVATE,null);
+            Cursor cursor = db.rawQuery("SELECT * FROM pricelist", null);
+            int imageIx = cursor.getColumnIndex("image");
+            int salePriceIx = cursor.getColumnIndex("saleprice");
+
+
+            while(cursor.moveToNext()) {
+                byte[] bytes = cursor.getBlob(imageIx);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+                String name = cursor.getString(1);
+                String salePrice = cursor.getString(salePriceIx);
+                PriceList priceList = new PriceList(bitmap,name,salePrice);
+
+                arrayList.add(priceList);
+            }
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return arrayList;
     }
 }

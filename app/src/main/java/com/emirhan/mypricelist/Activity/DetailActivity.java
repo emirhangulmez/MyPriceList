@@ -1,11 +1,10 @@
-package com.emirhan.mypricelist;
+package com.emirhan.mypricelist.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -13,6 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import com.emirhan.mypricelist.R;
 
 public class DetailActivity extends AppCompatActivity {
     //  Variables Head //

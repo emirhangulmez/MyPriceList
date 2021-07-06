@@ -1,4 +1,4 @@
-package com.emirhan.mypricelist;
+package com.emirhan.mypricelist.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +25,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.emirhan.mypricelist.R;
 
 import org.jetbrains.annotations.NotNull;
 

@@ -42,6 +42,11 @@ public class DetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         int priceId = intent.getIntExtra("priceId",1);
+        /*
+        Since the data is taken according to the array, I had to add something above it.
+        Because the sequence has to be according to SQLite, not according to the array.
+         */
+        priceId = priceId + 1;
 
         try {
             Cursor cursor = database.rawQuery("SELECT * FROM pricelist WHERE id = ?",new String[] {String.valueOf(priceId)});

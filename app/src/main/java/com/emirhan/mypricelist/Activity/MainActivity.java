@@ -2,6 +2,8 @@ package com.emirhan.mypricelist.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -25,14 +27,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    private ArrayList<PriceList> arrayList;
+
     ListView listView;
-    SQLiteDatabase database;
     ArrayList<String> nameArray;
     ArrayList<Integer> idArray;
     ArrayList<Integer> quantityArray;
     ArrayList<Integer> PriceArray;
-    ArrayList<PriceList> arrayList;
     MyAdapter myAdapter;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +49,14 @@ public class MainActivity extends AppCompatActivity {
         idArray = new ArrayList<Integer>();
         PriceArray = new ArrayList<Integer>();
         quantityArray = new ArrayList<Integer>();
-
-
         loadDataInListView();
+        MyAdapter myAdapter = new MyAdapter(MainActivity.this,arrayList);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this,DetailActivity.class);
-                intent.putExtra("priceId",3);
+                intent.putExtra("priceId", Integer.valueOf((int) myAdapter.getItemId(position)));
+                System.out.println(myAdapter.getItemId(position));
                 intent.putExtra("info","old");
                 startActivity(intent);
             }

@@ -15,6 +15,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class MyAdapter extends BaseAdapter {
+
+
     Context context;
     ArrayList<PriceList> arrayList;
     public MyAdapter(Context context, ArrayList<PriceList> arrayList)

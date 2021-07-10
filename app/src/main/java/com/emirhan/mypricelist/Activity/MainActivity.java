@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.emirhan.mypricelist.Adapters.MyAdapter;
 import com.emirhan.mypricelist.Model.PriceList;
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this,DetailActivity.class);
-                intent.putExtra("priceId", Integer.valueOf((int) myAdapter.getItemId(position)));
+                intent.putExtra("priceId", Integer.valueOf((int) myAdapter.getItemId(position) + 1));
                 System.out.println(myAdapter.getItemId(position));
                 intent.putExtra("info","old");
                 startActivity(intent);
@@ -69,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
        listView.setAdapter(myAdapter);
        myAdapter.notifyDataSetChanged();
     }
-
 
 
 
@@ -92,12 +92,24 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("info","new");
             startActivity(intent);
         }
+
+        Cursor c = database.rawQuery("SELECT * FROM pricelist WHERE id = 1",null);
+
         if (item.getItemId() == R.id.delete_products) {
-            database.execSQL("DELETE FROM PriceList");
-            Intent intent = getIntent();
-            finish();
-            startActivity(intent);
-        }
+            if (c.moveToFirst()) {
+                database.execSQL("DELETE FROM PriceList");
+                // cursor has a data, print here
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+            } else {
+                // cursor is empty, print here
+                Toast.makeText(MainActivity.this,"Something went wrong.\nHave you tried adding products?",Toast.LENGTH_LONG).show();
+            }
+
+            }
+
+
 
         return super.onOptionsItemSelected(item);
     }

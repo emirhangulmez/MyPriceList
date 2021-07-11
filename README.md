@@ -10,7 +10,7 @@
 
 
 <hr>
-<h2>In-app Supplemented with GIF Image</h2>
+<h2>In-app photo supplemented with GIF</h2>
 <img src="https://github.com/emirhangulmez/media/blob/main/PriceListInApp.gif?raw=true" width="319" alt="Supplemented-with-GIF-Image" border="0">
 <div style="display: flex;">
   <h2>In-app images</h2>

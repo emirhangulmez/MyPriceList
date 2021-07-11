@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-        Cursor c = database.rawQuery("SELECT * FROM pricelist WHERE id = 1",null);
+        Cursor c = database.rawQuery("SELECT * FROM pricelist", null);
 
         if (item.getItemId() == R.id.delete_products) {
             if (c.moveToFirst()) {

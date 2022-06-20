@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Price List</string>
+    <string name="warn_fill_blanks">Please fill in the blanks!</string>
+    <string name="warn_add_picture">Please add a picture!</string>
 </resources>

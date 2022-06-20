@@ -7,7 +7,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.emirhan.pricelist.Modal.Price;
+import com.emirhan.pricelist.Model.Price;
 
 import java.util.List;
 

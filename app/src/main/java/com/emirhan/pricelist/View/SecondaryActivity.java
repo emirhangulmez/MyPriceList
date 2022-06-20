@@ -1,7 +1,6 @@
 package com.emirhan.pricelist.View;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -26,7 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.emirhan.pricelist.Modal.Price;
+import com.emirhan.pricelist.Model.Price;
 import com.emirhan.pricelist.R;
 import com.emirhan.pricelist.RoomDB.PriceDao;
 import com.emirhan.pricelist.RoomDB.PriceDatabase;
@@ -50,7 +49,7 @@ public class SecondaryActivity extends AppCompatActivity {
     String name,costPrice,salePrice,quantity, intentInfo;
     Price selectedPrice;
     int imageCheck;
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
 
     @Override
@@ -86,36 +85,28 @@ public class SecondaryActivity extends AppCompatActivity {
 
 
         } else if(intentInfo.matches("old")) {
-            selectedPrice = (Price) intent.getParcelableExtra("price");
+            selectedPrice = intent.getParcelableExtra("price");
 
             binding.saveButton.setVisibility(View.INVISIBLE);
 
 
 
-            binding.deleteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    compositeDisposable.add(priceDao.delete(selectedPrice)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(SecondaryActivity.this::handleResponse)
-                    );
-                }
-            });
+            binding.deleteButton.setOnClickListener(v -> compositeDisposable.add(priceDao.delete(selectedPrice)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(SecondaryActivity.this::handleResponse)
+            ));
 
-            binding.updateButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    quantity = binding.quantityEditText.getText().toString();
-                    name = binding.nameEditText.getText().toString();
-                    costPrice = binding.costPriceEditText.getText().toString();
-                    salePrice = binding.salePriceEditText.getText().toString();
-                    compositeDisposable.add(priceDao.updatePrice(selectedPrice.id,name,costPrice,salePrice,quantity)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(SecondaryActivity.this::handleResponse)
-                    );
-                }
+            binding.updateButton.setOnClickListener(v -> {
+                quantity = binding.quantityEditText.getText().toString();
+                name = binding.nameEditText.getText().toString();
+                costPrice = binding.costPriceEditText.getText().toString();
+                salePrice = binding.salePriceEditText.getText().toString();
+                compositeDisposable.add(priceDao.updatePrice(selectedPrice.id,name,costPrice,salePrice,quantity)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(SecondaryActivity.this::handleResponse)
+                );
             });
 
             binding.nameEditText.setText(selectedPrice.name);
@@ -140,9 +131,9 @@ public class SecondaryActivity extends AppCompatActivity {
 
 
         if (name.matches("") || costPrice.matches("") || salePrice.matches("") || quantity.matches("")) {
-            binding.resultText.setText("Please fill in the blanks!");
+            binding.resultText.setText(R.string.warn_fill_blanks);
         } else if (imageCheck == 0) {
-            binding.resultText.setText("Please add a picture!");
+            binding.resultText.setText(R.string.warn_add_picture);
         } else {
                 Bitmap smallImage = makeSmallerImage(selectedImage,300);
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -191,13 +182,7 @@ public class SecondaryActivity extends AppCompatActivity {
         if (intentInfo.matches("new")) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                    Snackbar.make(view, "Permission need to gallery", Snackbar.LENGTH_INDEFINITE).setAction("Give Permission", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
-                        }
-
-                    }).show();
+                    Snackbar.make(view, "Permission need to gallery", Snackbar.LENGTH_INDEFINITE).setAction("Give Permission", v -> permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)).show();
 
                 } else {
                     // Request Permission
@@ -209,60 +194,49 @@ public class SecondaryActivity extends AppCompatActivity {
                 activityResultLauncher.launch(intentToGallery);
 
             }
-        } else {
-
         }
-
 
 
 }
     //Permission Launcher
     private void registerLauncher() {
-        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
-           if (result.getResultCode() == RESULT_OK) {
-               Intent intentFromResult = result.getData();
-               if (intentFromResult != null) {
-                   Uri imageData = intentFromResult.getData();
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+       if (result.getResultCode() == RESULT_OK) {
+           Intent intentFromResult = result.getData();
+           if (intentFromResult != null) {
+               Uri imageData = intentFromResult.getData();
 
-                   try {
-                       if (Build.VERSION.SDK_INT >= 28) {
-                           ImageDecoder.Source source = ImageDecoder.createSource(getContentResolver(),imageData);
-                           selectedImage = ImageDecoder.decodeBitmap(source);
-                           binding.imageView.setImageBitmap(selectedImage);
-                           imageCheck = 200;
-                       } else {
-                           selectedImage = MediaStore.Images.Media.getBitmap(getContentResolver(),imageData);
-                           binding.imageView.setImageBitmap(selectedImage);
-                           imageCheck = 200;
-                       }
-                   }catch (Exception e ) {
-                       e.printStackTrace();
+               try {
+                   if (Build.VERSION.SDK_INT >= 28) {
+                       ImageDecoder.Source source = ImageDecoder.createSource(getContentResolver(),imageData);
+                       selectedImage = ImageDecoder.decodeBitmap(source);
+                   } else {
+                       selectedImage = MediaStore.Images.Media.getBitmap(getContentResolver(),imageData);
                    }
+                   binding.imageView.setImageBitmap(selectedImage);
+                   imageCheck = 200;
+               }catch (Exception e ) {
+                   e.printStackTrace();
                }
            }
-            }
+       }
         });
 
-        permissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
-            @Override
-            public void onActivityResult(Boolean result) {
-               if (result) {
-                   // Permission Granted
-                   Intent intentToGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                   activityResultLauncher.launch(intentToGallery);
-               } else {
-                   // Permission Denied
-                   Toast.makeText(SecondaryActivity.this, "Permission Needed!", Toast.LENGTH_LONG).show();
-               }
-            }
+        permissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), result -> {
+           if (result) {
+               // Permission Granted
+               Intent intentToGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+               activityResultLauncher.launch(intentToGallery);
+           } else {
+               // Permission Denied
+               Toast.makeText(SecondaryActivity.this, "Permission Needed!", Toast.LENGTH_LONG).show();
+           }
         });
 
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         Intent intent = getIntent();
 
         intentInfo = intent.getStringExtra("info");

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.emirhan.pricelist.Modal.Price;
+import com.emirhan.pricelist.Model.Price;
 import com.emirhan.pricelist.View.SecondaryActivity;
 import com.emirhan.pricelist.databinding.RecyclerRowBinding;
 
@@ -35,8 +35,8 @@ public class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.PriceHolder>
         holder.recyclerRowBinding.recyclerViewTextTextView.setText(priceList.get(position).name);
         Bitmap bitmap = BitmapFactory.decodeByteArray(priceList.get(position).image,0,priceList.get(position).image.length);
         holder.recyclerRowBinding.imageView2.setImageBitmap(bitmap);
-
-        holder.recyclerRowBinding.recyclerViewTextTextView2.setText(priceList.get(position).salePrice + " $ "  + "(" + priceList.get(position).quantity + ")");
+        String text = priceList.get(position).salePrice + " $ "  + "(" + priceList.get(position).quantity + ")";
+        holder.recyclerRowBinding.recyclerViewTextTextView2.setText(text);
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), SecondaryActivity.class);

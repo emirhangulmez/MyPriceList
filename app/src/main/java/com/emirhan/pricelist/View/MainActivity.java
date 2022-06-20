@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.emirhan.pricelist.Adapter.PriceAdapter;
-import com.emirhan.pricelist.Modal.Price;
+import com.emirhan.pricelist.Model.Price;
 import com.emirhan.pricelist.R;
 import com.emirhan.pricelist.RoomDB.PriceDao;
 import com.emirhan.pricelist.RoomDB.PriceDatabase;
@@ -28,7 +28,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private ActivityMainBinding binding;
     PriceDao priceDao;
     PriceDatabase db;
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.add_menu,menu);
         return super.onCreateOptionsMenu(menu);
@@ -93,13 +93,10 @@ public class MainActivity extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             } else{
-                Snackbar.make(getWindow().getDecorView().findViewById(android.R.id.content),"Something went wrong.\nHave you tried adding products?",Snackbar.LENGTH_LONG).setAction("Add Product", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(MainActivity.this,SecondaryActivity.class);
-                        intent.putExtra("info","new");
-                        startActivity(intent);
-                    }
+                Snackbar.make(getWindow().getDecorView().findViewById(android.R.id.content),"Something went wrong.\nHave you tried adding products?",Snackbar.LENGTH_LONG).setAction("Add Product", v -> {
+                    Intent intent = new Intent(MainActivity.this,SecondaryActivity.class);
+                    intent.putExtra("info","new");
+                    startActivity(intent);
                 }).show();
 
 

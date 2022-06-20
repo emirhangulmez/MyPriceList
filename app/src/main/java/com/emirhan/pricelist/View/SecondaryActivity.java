@@ -86,7 +86,7 @@ public class SecondaryActivity extends AppCompatActivity {
 
 
         } else if(intentInfo.matches("old")) {
-            selectedPrice = (Price) intent.getSerializableExtra("price");
+            selectedPrice = (Price) intent.getParcelableExtra("price");
 
             binding.saveButton.setVisibility(View.INVISIBLE);
 

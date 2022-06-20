@@ -5,11 +5,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.emirhan.pricelist.Modal.Price;
@@ -21,7 +19,6 @@ import java.util.List;
 public class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.PriceHolder> {
 
     List<Price> priceList;
-    GridLayoutManager gridLayoutManager;
     public PriceAdapter(List<Price> priceList) {
         this.priceList = priceList;
     }
@@ -38,16 +35,14 @@ public class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.PriceHolder>
         holder.recyclerRowBinding.recyclerViewTextTextView.setText(priceList.get(position).name);
         Bitmap bitmap = BitmapFactory.decodeByteArray(priceList.get(position).image,0,priceList.get(position).image.length);
         holder.recyclerRowBinding.imageView2.setImageBitmap(bitmap);
+
         holder.recyclerRowBinding.recyclerViewTextTextView2.setText(priceList.get(position).salePrice + " $ "  + "(" + priceList.get(position).quantity + ")");
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(holder.itemView.getContext(), SecondaryActivity.class);
-                intent.putExtra("info","old");
-                intent.putExtra("price",priceList.get(position));
-                holder.itemView.getContext().startActivity(intent);
-            }
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(holder.itemView.getContext(), SecondaryActivity.class);
+            intent.putExtra("info","old");
+            intent.putExtra("price",priceList.get(position));
+            holder.itemView.getContext().startActivity(intent);
         });
     }
 
@@ -56,7 +51,7 @@ public class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.PriceHolder>
         return priceList.size();
     }
 
-    public class PriceHolder extends RecyclerView.ViewHolder {
+    public static class PriceHolder extends RecyclerView.ViewHolder {
         RecyclerRowBinding recyclerRowBinding;
 
         public PriceHolder(@NonNull RecyclerRowBinding recyclerRowBinding) {
